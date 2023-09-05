@@ -28,6 +28,35 @@ class GenerateMenus
                     'class' => 'nav-link',
                 ]);
 
+//    // Campaigns
+//    $menu->add('<i class="nav-icon fas fa-cogs"></i> Campaigns', [
+//     'route' => 'campaigns.index',
+//     'class' => 'nav-item',
+// ])
+//     ->data([
+//         'order' => 102,
+//         'activematches' => 'campaigns*',
+//         'permission' => ['view_campaigns'],
+//     ])
+//     ->link->attr([
+//         'class' => 'nav-link',
+//     ]);
+    
+
+            // // ueser
+            // $menu->add('<i class="nav-icon fas fa-user"></i> Customer', [
+            //     'route' => 'backend.users.index',
+            //     'class' => 'nav-item',
+            // ])
+            //     ->data([
+            //         'order' => 105,
+            //         'activematches' => 'admin/users*',
+            //         'permission' => ['view_users'],
+            //     ])
+            //     ->link->attr([
+            //         'class' => 'nav-link',
+            //     ]);
+
             // Notifications
             $menu->add('<i class="nav-icon fas fa-bell"></i> Notifications', [
                 'route' => 'backend.notifications.index',
@@ -48,7 +77,7 @@ class GenerateMenus
             ])
                 ->data([
                     'order' => 101,
-                    'permission' => ['edit_settings', 'view_backups', 'view_users', 'view_roles', 'view_logs'],
+                    'permission' => ['edit_settings', 'view_backups',  'view_roles', 'view_logs'],
                 ]);
 
             // Settings
@@ -86,29 +115,29 @@ class GenerateMenus
                 ->data([
                     'order' => 104,
                     'activematches' => [
-                        'admin/users*',
+                        // 'admin/users*',
                         'admin/roles*',
                     ],
-                    'permission' => ['view_users', 'view_roles'],
+                    'permission' => [ 'view_roles'],
                 ]);
             $accessControl->link->attr([
                 'class' => 'nav-link nav-group-toggle',
                 'href' => '#',
             ]);
 
-            // Submenu: Users
-            $accessControl->add('<i class="nav-icon fa-solid fa-user-group"></i> Users', [
-                'route' => 'backend.users.index',
-                'class' => 'nav-item',
-            ])
-                ->data([
-                    'order' => 105,
-                    'activematches' => 'admin/users*',
-                    'permission' => ['view_users'],
-                ])
-                ->link->attr([
-                    'class' => 'nav-link',
-                ]);
+            // // Submenu: Users
+            // $accessControl->add('<i class="nav-icon fa-solid fa-user-group"></i> Users', [
+            //     'route' => 'backend.users.index',
+            //     'class' => 'nav-item',
+            // ])
+            //     ->data([
+            //         'order' => 105,
+            //         'activematches' => 'admin/users*',
+            //         'permission' => ['view_users'],
+            //     ])
+            //     ->link->attr([
+            //         'class' => 'nav-link',
+            //     ]);
 
             // Submenu: Roles
             $accessControl->add('<i class="nav-icon fa-solid fa-user-shield"></i> Roles', [
@@ -166,6 +195,7 @@ class GenerateMenus
                 ->link->attr([
                     'class' => 'nav-link',
                 ]);
+            
 
             // Access Permission Check
             $menu->filter(function ($item) {

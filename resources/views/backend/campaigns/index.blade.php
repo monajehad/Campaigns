@@ -2,9 +2,9 @@
 
 @section('content')
     <h1>Campaigns</h1>
-
+@can('add_campaigns')
     <a href="{{ route('campaigns.create') }}" class="btn btn-primary mb-3">Create Campaign</a>
-
+@endcan
     <table class="table">
         <thead>
             <tr>
@@ -23,10 +23,17 @@
                     <td>{{ $campaign->target }}</td>
                     <td>{{ $campaign->price }}</td>
                     <td>
+                        @can('view_campaigns')
                         <a href="{{ route('campaigns.show', $campaign) }}" class="btn btn-info btn-sm">View</a>
-                        <a href="{{ route('campaigns.edit', $campaign) }}" class="btn btn-primary btn-sm">Edit</a>
-                        <a href="{{ route('campaigns.select-winner', $campaign) }}" class="btn btn-primary btn-sm">winner</a>
+                        @endcan
+                        @can('edit_campaigns')
 
+                        <a href="{{ route('campaigns.edit', $campaign) }}" class="btn btn-primary btn-sm">Edit</a>
+                        @endcan
+                        @can('delete_campaigns')
+
+                        <a href="{{ route('campaigns.select-winner', $campaign) }}" class="btn btn-primary btn-sm">winner</a>
+@endcan
                         <form action="{{ route('campaigns.destroy', $campaign) }}" method="POST" style="display: inline-block">
                             @csrf
                             @method('DELETE')
