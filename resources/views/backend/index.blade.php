@@ -33,3 +33,10 @@
 @include("backend.includes.dashboard_demo_data")
 
 @endsection
+
+@push ('after-scripts')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js" charset="utf-8"></script>
+{!! $chart->script() !!}
+ <!-- Include the chart JavaScript -->
+ {!! $chartPie->script() !!}
+@endpush

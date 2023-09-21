@@ -3,6 +3,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Campaign;
 use App\Models\PaymentMethod;
 use App\Models\Transaction;
 use App\Services\LahzaApiService;
@@ -21,9 +22,10 @@ class PaymentController extends Controller
     }
 
 
-    public function showPaymentInterface()
+    public function showPaymentInterface( $campaignId)
     {
-        return view('backend.payment.payment-interface');
+
+        return view('backend.payment.payment-interface',compact('campaignId'));
     }
     public function processCardPayment(Request $request)
     {

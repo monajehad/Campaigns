@@ -1,4 +1,4 @@
-@extends ('backend.layouts.app')
+{{-- @extends ('backend.layouts.app')
 
 @section('title') {{ __($module_action) }} {{ __($module_title) }} @endsection
 
@@ -42,7 +42,7 @@
         <div class="row mt-4">
             <div class="col">
                 <div class="table-responsive">
-                    <table id="datatable" class="table table-hover ">
+                    <table id="datatable" class="table table-hover">
                         <thead>
                             <tr>
                                 <th>#</th>
@@ -122,3 +122,79 @@
     });
 </script>
 @endpush
+ --}}
+
+
+@extends('backend.layouts.app')
+
+@section('content')
+<div class="card">
+    <div class="card-body">
+<div class="row pt-4 ">
+    
+<div class="col-md-10">
+    <h3>All Customers </h3>
+</div>
+<div class="col-md-2">
+
+    @can('add_campaigns')
+        <a href="{{ route("backend.users.create") }}" class="btn btn-success mb-3">Add New</a>
+    @endcan
+</div>
+</div>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>User name</th>
+                <th>Mobile</th>
+                <th>2-FA</th>
+                <th>Status</th>
+                <th>Last Login</th>
+                <th>Actions</th>
+
+                
+                
+            </tr>
+        </thead>
+        <tbody>
+            @foreach ($users as $user)
+                <tr>
+                    <td>{{ $user->id }}</td>
+
+                    <td>{{ $user->name }}</td>
+                    <td>{{ $user->mobile }}</td>
+                    <td></td>
+                    <td>
+
+                    {!! $user->status_label !!}
+                </td>
+                    <td>{{ $user->profile->last_login  ??''}}</td>
+                    <td>
+                        <a href="{{route('backend.users.show', $user)}}" class="btn  btn-sm mt-1" data-toggle="tooltip" title="{{__('labels.backend.show')}}"> 
+                            <i class="fa-regular fa-eye"></i></a>
+                        @can('edit_users')
+                        <a href="{{route('backend.users.edit', $user)}}" class="btn  btn-sm mt-1" data-toggle="tooltip" title="{{__('labels.backend.edit')}}">  <i class="fa-regular fa-pen-to-square"></i></a>
+                        <a href="{{route('backend.users.changePassword', $user)}}" class="btn  btn-sm mt-1" data-toggle="tooltip" title="{{__('labels.backend.changePassword')}}"><i class="fas fa-key"></i></a>
+                        {{-- @if ($user->status != 2)
+                        <a href="{{route('backend.users.block', $user)}}" class="btn btn-danger btn-sm mt-1" data-method="PATCH" data-token="{{csrf_token()}}" data-toggle="tooltip" title="{{__('labels.backend.block')}}" data-confirm="Are you sure?"><i class="fas fa-ban"></i></a>
+                        @endif
+                        @if ($user->status == 2)
+                        <a href="{{route('backend.users.unblock', $user)}}" class="btn btn-info btn-sm mt-1" data-method="PATCH" data-token="{{csrf_token()}}" data-toggle="tooltip" title="{{__('labels.backend.unblock')}}" data-confirm="Are you sure?"><i class="fas fa-check"></i></a>
+                        @endif --}}
+                        <a href="{{route('backend.users.destroy', $user)}}" class="btn  btn-sm mt-1" data-method="DELETE" data-token="{{csrf_token()}}" data-toggle="tooltip" title="{{__('labels.backend.delete')}}" data-confirm="Are you sure?"> <i class="fa-solid fa-trash"></i></a>
+                        @if ($user->email_verified_at == null)
+                        <a href="{{route('backend.users.emailConfirmationResend', $user->id)}}" class="btn btn-primary btn-sm mt-1" data-toggle="tooltip" title="Send Confirmation Email"><i class="fas fa-envelope"></i></a>
+                        @endif
+                        @endcan
+                    </td>
+                </tr>
+            @endforeach
+        </tbody>
+    </table>
+</div>
+</div>
+@endsection
+
+
+

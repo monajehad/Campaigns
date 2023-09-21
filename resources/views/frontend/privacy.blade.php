@@ -107,7 +107,7 @@
             this page.
         </p> <p>This policy is effective as of 2020-01-01</p> <p><strong>Contact Us</strong></p> <p>
             If you have any questions or suggestions about my
-            Privacy Policy, do not hesitate to contact me at https://nasirkhn.com.
+            Privacy Policy, do not hesitate to contact me at.
         </p>
     </div>
 </div>

@@ -41,6 +41,13 @@ return [
             'driver' => 'array',
             'serialize' => false,
         ],
+        'stores' => [
+            'file' => [
+                'driver' => 'file',
+                'path' => storage_path('framework/cache/data'),
+            ],
+            // Other cache stores...
+        ],
 
         'database' => [
             'driver' => 'database',

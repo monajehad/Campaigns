@@ -10,7 +10,7 @@ class Subscription extends Model
     use HasFactory;
 
     protected $fillable = [
-        'campaign_id', 'user_id', 'total_payment'
+        'campaign_id', 'user_id', 'total_payment','participation_id'
     ];
 
     public function campaign()

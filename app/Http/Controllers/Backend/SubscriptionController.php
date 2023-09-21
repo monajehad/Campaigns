@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 
 use App\Http\Controllers\Controller;
+use App\Models\Campaign;
 use App\Models\Subscription;
 
 class SubscriptionController extends Controller
@@ -14,8 +15,11 @@ class SubscriptionController extends Controller
 
     public function index()
     {
-        $subscriptions = Subscription::all();
-        return view('subscriptions.index', compact('subscriptions'));
+        // $subscriptions = Subscription::all();
+        // return view('subscriptions.index', compact('subscriptions'));
+
+        $campaigns = Campaign::all();
+        return view('backend.campaigns.index_campaigns', compact('campaigns'));
     }
 
     public function create()

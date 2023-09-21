@@ -47,9 +47,20 @@ class GenerateMenus
                     ->link->attr([
                         'class' => 'nav-link',
                     ]);
-
+                    $menu->add('<i class="nav-icon fa-solid fa-sitemap"></i> '.__('My Campaigns '), [
+                        'route' => 'my-campaigns.index',
+                        'class' => 'nav-item',
+                    ])
+                        ->data([
+                            'order' => 83,
+                            'activematches' => ['Campaigns*'],
+                            'permission' => ['view_campaigns'],
+                        ])
+                        ->link->attr([
+                            'class' => 'nav-link',
+                        ]);
                 $menu->add('<i class="nav-icon fa-solid fa-sitemap"></i> '.__('Active Campaigns '), [
-                    'route' => 'campaigns.index',
+                    'route' => 'active-campaigns.index',
                     'class' => 'nav-item',
                 ])
                     ->data([
@@ -61,7 +72,7 @@ class GenerateMenus
                         'class' => 'nav-link',
                     ]);
                     $menu->add('<i class="nav-icon fa-solid fa-sitemap"></i> '.__('Completed  Campaigns  '), [
-                        'route' => 'campaigns.index',
+                        'route' => 'completed-campaigns.index',
                         'class' => 'nav-item',
                     ])
                         ->data([
@@ -77,7 +88,19 @@ class GenerateMenus
                         ->add('<i class="nav-icon fa-solid fa-sitemap"></i> '.__('My Account '), [
                             'class' => 'nav-item',
                         ]);
-                  dd(auth()->user()->id);
+                        $menu->add('<i class="nav-icon fa-solid fa-sitemap"></i> '.__('Ads '), [
+                            'route' => 'smart-ad-manager',
+                            'class' => 'nav-item',
+                        ])
+                            ->data([
+                                'order' => 83,
+                                'activematches' => ['Campaigns*'],
+                                'permission' => ['view_campaigns'],
+                            ])
+                            ->link->attr([
+                                'class' => 'nav-link',
+                            ]);
+                //   dd(auth()->user()->id);
                     if (auth()->check()) {
                         $menu->get('My Account')->add([
                             'route' => ['backend.users.profileEdit', ['id' => auth()->user()->id]],

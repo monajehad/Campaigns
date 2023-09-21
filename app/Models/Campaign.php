@@ -10,7 +10,7 @@ class Campaign extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name', 'description', 'target', 'price', 'image', 'close_campaign_after'
+        'name', 'description', 'target', 'price', 'image', 'close_campaign_after','status'
     ];
 
     public function features()

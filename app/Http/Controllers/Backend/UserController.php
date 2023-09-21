@@ -77,13 +77,41 @@ class UserController extends Controller
         $$module_name = $module_model::paginate();
 
         Log::info("'$title' viewed by User:".auth()->user()->name.'(ID:'.auth()->user()->id.')');
+        // $users = User::all();
+        $users = User::orderBy('created_at', 'desc')->whereDoesntHave('roles', function ($query) {
+            $query->whereIn('name', ['admin', 'campaign-management','super admin','manager
+            ']);
+        })->get();
+
+        return view(
+            "backend.$module_path.index_datatable",
+            compact('users','module_title', 'module_name', 'module_path', 'module_icon', 'module_action', 'module_name_singular', 'page_heading', 'title')
+        );
+    }
+    public function getCampaigns()
+    {
+        $module_title = $this->module_title;
+        $module_name = $this->module_name;
+        $module_path = $this->module_path;
+        $module_icon = $this->module_icon;
+        $module_model = $this->module_model;
+        $module_name_singular = Str::singular($module_name);
+
+        $module_action = 'List';
+
+        $page_heading = ucfirst($module_title);
+        $title = $page_heading.' '.ucfirst($module_action);
+
+        $$module_name = $module_model::paginate();
+
+        Log::info("'$title' viewed by User:".auth()->user()->name.'(ID:'.auth()->user()->id.')');
+        $users = User::all();
 
         return view(
             "backend.$module_path.index",
-            compact('module_title', 'module_name', 'module_path', 'module_icon', 'module_action', 'module_name_singular', 'page_heading', 'title')
+            compact('users','module_title', 'module_name', 'module_path', 'module_icon', 'module_action', 'module_name_singular', 'page_heading', 'title')
         );
     }
-
     public function index_data()
     {
         $module_title = $this->module_title;

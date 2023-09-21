@@ -10,12 +10,19 @@ use Illuminate\Support\Facades\Storage;
 
 class CampaignFeatureController extends Controller
 {
+
+    public function createFeatures(Campaign $campaign)
+    {
+        // $campaign = Campaign::find($id);
+
+        return view('backend.campaigns.features', compact('campaign'));
+    }
     public function store(Request $request, Campaign $campaign)
     {
         $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
         $data = $request->all();
@@ -26,7 +33,7 @@ class CampaignFeatureController extends Controller
         }
 
          $campaign->features()->create($data);
-        return redirect()->route('campaigns.show', $campaign)->with('success', 'Campaign feature created successfully.');
+        return redirect()->route('campaigns.index', $campaign)->with('success', 'Campaign feature created successfully.');
     }
 
     public function update(Request $request, Campaign $campaign, CampaignFeature $feature)

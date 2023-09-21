@@ -25,7 +25,7 @@ class WinnerController extends Controller
         $totalSubscriptions = count($subscriptionIds);
 
  // Check if the number of participants equals the campaign target
- if ($totalSubscriptions === $campaign->target) {
+ if ($totalSubscriptions === $campaign->target  || $campaign['status'] == 'Disabled by Admin') {
     // Check if a winner has already been selected for this campaign
     $existingWinner = Winner::where('campaign_id', $campaignId)->first();
 
@@ -46,7 +46,8 @@ class WinnerController extends Controller
 
         // Retrieve the associated user for the selected subscription
         $user = Subscription::find($randomSubscriptionId)->user;
-
+        $campaign->status = 'Won the Prize';
+        $campaign->save();
         // Insert a new record into the Winner table
         Winner::create([
             'campaign_id' => $campaignId,
@@ -63,7 +64,7 @@ class WinnerController extends Controller
     return redirect()->back()->with('error', 'Campaign target not reached yet.');
 }
   
-    }
+}
 
     // Helper function for weighted random selection
     private function weightedRandom($weightedProbabilities)

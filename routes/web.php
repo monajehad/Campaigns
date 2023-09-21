@@ -4,10 +4,13 @@ use App\Http\Controllers\LanguageController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Backend\CampaignController;
 use App\Http\Controllers\Backend\CampaignFeatureController;
-use App\Http\Controllers\SubscriptionController;
+use App\Http\Controllers\Backend\FeatureController;
+use App\Http\Controllers\Backend\SubscriptionController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\LahzaTransactionController;
 use App\Http\Controllers\WinnerController;
+use Laravel\Fortify\Fortify;
+use App\Http\Controllers\TwoFactorController;
 
 
 /*
@@ -24,10 +27,27 @@ use App\Http\Controllers\WinnerController;
 // Auth Routes
 require __DIR__.'/auth.php';
 
+
+// Route::get('/user/two-factor-authentication-setup', [TwoFactorController::class, 'show'])
+//     ->name('two-factor.setup');
+
+// // Route to enable 2FA for the user (POST request)
+// Route::post('/user/two-factor-authentication-setup', [TwoFactorController::class, 'enable']);
+
+// // Route to show the 2FA verification view (GET request)
+// Route::get('/user/two-factor-challenge', [TwoFactorController::class, 'challenge'])
+//     ->name('two-factor.challenge');
+
+// // Route to verify the 2FA code (POST request)
+// Route::post('/user/two-factor-challenge', [TwoFactorController::class, 'verify']);
+
+// // Route to disable 2FA for the user (DELETE request)
+// Route::delete('/user/two-factor-authentication-setup', [TwoFactorController::class, 'disable']);
 // Language Switch
 Route::get('language/{language}', [LanguageController::class, 'switch'])->name('language.switch');
 
 Route::get('dashboard', 'App\Http\Controllers\Frontend\FrontendController@index')->name('dashboard');
+
 /*
 *
 * Frontend Routes
@@ -50,6 +70,8 @@ Route::group(['namespace' => 'App\Http\Controllers\Frontend', 'as' => 'frontend.
         $module_name = 'users';
         $controller_name = 'UserController';
         Route::get('profile/{id}', ['as' => "$module_name.profile", 'uses' => "$controller_name@profile"]);
+        Route::get('profile/{id}', ['as' => "$module_name.profile", 'uses' => "$controller_name@profile"]);
+
         Route::get('profile/{id}/edit', ['as' => "$module_name.profileEdit", 'uses' => "$controller_name@profileEdit"]);
         Route::patch('profile/{id}/edit', ['as' => "$module_name.profileUpdate", 'uses' => "$controller_name@profileUpdate"]);
         Route::get('profile/changePassword/{id}', ['as' => "$module_name.changePassword", 'uses' => "$controller_name@changePassword"]);
@@ -134,6 +156,8 @@ Route::group(['namespace' => 'App\Http\Controllers\Backend', 'prefix' => 'admin'
     */
     $module_name = 'users';
     $controller_name = 'UserController';
+    Route::get("$module_name/campaigns", ['as' => "$module_name.campaigns", 'uses' => "$controller_name@getCampaigns"]);
+
     Route::get("$module_name/profile/{id}", ['as' => "$module_name.profile", 'uses' => "$controller_name@profile"]);
     Route::get("$module_name/profile/{id}/edit", ['as' => "$module_name.profileEdit", 'uses' => "$controller_name@profileEdit"]);
     Route::patch("$module_name/profile/{id}/edit", ['as' => "$module_name.profileUpdate", 'uses' => "$controller_name@profileUpdate"]);
@@ -155,6 +179,11 @@ Route::group(['namespace' => 'App\Http\Controllers\Backend', 'prefix' => 'admin'
 
 //Campaign
 Route::resource('campaigns', CampaignController::class);
+// Route::get('/campaigns/show-campaigns', [CampaignController::class, 'showAllCampaigns'])->name('campaigns.show-campaigns');
+Route::get('/campaigns/{campaign}/create-features', [CampaignFeatureController::class, 'createFeatures'])->name('campaigns.features-create');
+Route::get('/create-subscription', [CampaignController::class, 'createSubscription'])->name('campaigns.create-subscription');
+Route::get('/active-campaigns', [CampaignController::class, 'activeCampaigns'])->name('active-campaigns.index');
+Route::get('/completed-campaigns', [CampaignController::class, 'completedCampaigns'])->name('completed-campaigns.index');
 
 Route::post('/campaigns/{campaign}/features', [CampaignFeatureController::class, 'store'])->name('campaigns.features.store');
 Route::put('/campaigns/{campaign}/features/{feature}', [CampaignFeatureController::class, 'update'])->name('campaigns.features.update');
@@ -163,8 +192,11 @@ Route::delete('/campaigns/{campaign}/features/{feature}', [CampaignFeatureContro
 // Route::get('/winners', 'CampaignController@winners');
 
 Route::resource('subscriptions', SubscriptionController::class);
+Route::get('/my-campaigns', [CampaignController::class, 'myCampaigns'])
+->name('my-campaigns.index');
 
-
+Route::get('/all-campaigns', [CampaignController::class, 'allCampaigns'])
+->name('show-all-campaigns');
 //winner // Route to display the winner selection form
 Route::get('/campaigns/{campaignId}/select-winner', [CampaignController::class, 'showSelectWinnerForm'])
 ->name('campaigns.select-winner');
@@ -173,6 +205,8 @@ Route::get('/campaigns/{campaignId}/select-winner', [CampaignController::class, 
 Route::post('/campaigns/{campaignId}/select-winner', [WinnerController::class, 'selectWinner'])
 ->name('campaigns.do-select-winner');
 
+//features
+Route::resource('features', FeatureController::class);
 
 
 
@@ -196,6 +230,8 @@ Route::post('/charge-authorization', [LahzaTransactionController::class, 'charge
 Route::get('/transaction/timeline/{idOrReference}', [LahzaTransactionController::class, 'viewTransactionTimeline']);
 
 
-Route::get('/payment', [PaymentController::class, 'showPaymentInterface'])->name('payment');
+Route::get('/payment/{campaignId}', [PaymentController::class, 'showPaymentInterface'])->name('payment');
 Route::post('/process-card-payment', [PaymentController::class, 'processCardPayment'])->name('process-card-payment');
 Route::post('/process-usdt-payment', [PaymentController::class, 'processUsdtPayment'])->name('process-usdt-payment');
+
+
