@@ -2,7 +2,7 @@
 
 @section('content')
     <h1>Campaign Details</h1>
-    <img src="{{ asset('storage/'.$campaign->image) }}" style="width:200px" class="card-img-top" alt="...">
+    <img src="{{ asset('storage/'.$campaign->image ?? 'images/def.svg') }}" style="width:200px" class="card-img-top" alt="...">
     <h2>{{ $campaign->name }}</h2>
     <p>Description: {{ $campaign->description }}</p>
     <p>Target: {{ $campaign->target }}</p>

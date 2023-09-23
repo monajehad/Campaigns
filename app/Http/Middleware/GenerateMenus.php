@@ -16,13 +16,15 @@ class GenerateMenus
     {
         \Menu::make('admin_sidebar', function ($menu) {
             // Dashboard
-            $menu->add('<i class="nav-icon fa-solid fa-cubes"></i> '.__('Dashboard'), [
+            $menu->add('<i class="nav-icon fa-solid fa-cubes"></i> '.__('Overview'), [
                 'route' => 'backend.dashboard',
                 'class' => 'nav-item',
             ])
                 ->data([
                     'order' => 1,
                     'activematches' => 'admin/dashboard*',
+                    'permission' => ['dashboard'],
+
                 ])
                 ->link->attr([
                     'class' => 'nav-link',

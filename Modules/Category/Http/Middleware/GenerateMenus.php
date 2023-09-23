@@ -54,7 +54,7 @@ class GenerateMenus
                         ->data([
                             'order' => 83,
                             'activematches' => ['Campaigns*'],
-                            'permission' => ['view_campaigns'],
+                            'permission' => ['view_mycampaigns'],
                         ])
                         ->link->attr([
                             'class' => 'nav-link',
@@ -66,7 +66,7 @@ class GenerateMenus
                     ->data([
                         'order' => 83,
                         'activematches' => ['Campaigns*'],
-                        'permission' => ['view_campaigns'],
+                        'permission' => ['view_activecampaigns'],
                     ])
                     ->link->attr([
                         'class' => 'nav-link',
@@ -78,7 +78,7 @@ class GenerateMenus
                         ->data([
                             'order' => 83,
                             'activematches' => ['Campaigns*'],
-                            'permission' => ['view_campaigns'],
+                            'permission' => ['view_completedcampaigns'],
                         ])
                         ->link->attr([
                             'class' => 'nav-link',
@@ -95,21 +95,22 @@ class GenerateMenus
                             ->data([
                                 'order' => 83,
                                 'activematches' => ['Campaigns*'],
-                                'permission' => ['view_campaigns'],
+                                'permission' => ['ads'],
                             ])
                             ->link->attr([
                                 'class' => 'nav-link',
                             ]);
                 //   dd(auth()->user()->id);
                     if (auth()->check()) {
-                        $menu->get('My Account')->add([
+                        $menu->add(['<i class="nav-icon fa-solid fa-sitemap"></i> '.__('My Account' ),
                             'route' => ['backend.users.profileEdit', ['id' => auth()->user()->id]],
                         ])
                         
                             ->data([
                                 'order' => 83,
                                 'activematches' => ['admin/users*'],
-                                'permission' => ['edit_profile'],
+                                'permission' => ['edit_profile
+                                '],
                             ])
                             ->link->attr([
                                 'class' => 'nav-link',
